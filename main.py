@@ -59,13 +59,18 @@ async def predict(file: UploadFile = File(...)):
     return {"Soil Type": soil_type, "Suitable Crops": crops}
 
 if __name__ == "__main__":
-    port = os.getenv("PORT", "8000")
-    try:
-        port = int(port)
-        logger.info(f"Starting Uvicorn with PORT={port}")
-    except ValueError:
-        logger.error(f"Invalid PORT value: {port}, defaulting to 8000")
+    # Force use of PORT environment variable
+    port_str = os.getenv("PORT")
+    if port_str is None:
+        logger.error("PORT environment variable not set, defaulting to 8000")
         port = 8000
+    else:
+        try:
+            port = int(port_str)
+            logger.info(f"Using PORT={port} from environment")
+        except ValueError:
+            logger.error(f"Invalid PORT value: {port_str}, defaulting to 8000")
+            port = 8000
 
-    logger.info(f"Attempting to bind to 0.0.0.0:{port}")
+    logger.info(f"Starting Uvicorn on 0.0.0.0:{port}")
     uvicorn.run(app, host="0.0.0.0", port=port)
