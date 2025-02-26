@@ -4,3 +4,4 @@ transformers
 Pillow
 fastapi
 uvicorn
+gunicorn
