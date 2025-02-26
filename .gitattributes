@@ -1,1 +1,2 @@
+final_ssl_soilnet_full.pth filter=lfs diff=lfs merge=lfs -text
 *.pth filter=lfs diff=lfs merge=lfs -text
